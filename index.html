@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>박영진 | 백엔드 개발자 포트폴리오</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Slate -->
+    <!-- Application Structure Plan: A single-page application with vertical scrolling and a sticky navigation. The core is an interactive timeline for work experience. Clicking a company on the timeline reveals detailed project descriptions ('Problem Solving Stories') for that period. This structure encourages exploration and connects skills to concrete experience, making the resume more engaging than a static document. -->
+    <!-- Visualization & Content Choices: Report Info: Skills list -> Goal: Organize/Inform -> Viz: Styled tags grouped by proficiency -> Justification: Clear, professional, and avoids gimmicky charts. Report Info: Career History -> Goal: Show Change/Organize -> Viz: Interactive vertical timeline -> Interaction: Click to expand project details -> Justification: Creates an engaging, story-driven exploration of career progression. NO SVG/Mermaid used. No complex charts needed as the data is qualitative. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 1.25rem;
+            top: 1.25rem;
+            bottom: 1.25rem;
+            width: 4px;
+            background-color: #e5e7eb;
+            transform: translateX(-50%);
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 1.25rem;
+            top: 1.25rem;
+            height: 1.5rem;
+            width: 1.5rem;
+            transform: translate(-50%, -50%);
+            border: 4px solid #f8f9fa;
+        }
+        .nav-item.active {
+            font-weight: 700;
+            color: #3b82f6;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: #3b82f6;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-bold text-gray-900">박영진</a>
+            <ul class="hidden md:flex space-x-8" id="nav-menu">
+                <li><a href="#about" class="nav-item text-gray-600 hover:text-blue-500 transition-colors">소개</a></li>
+                <li><a href="#skills" class="nav-item text-gray-600 hover:text-blue-500 transition-colors">보유 기술</a></li>
+                <li><a href="#experience" class="nav-item text-gray-600 hover:text-blue-500 transition-colors">경력</a></li>
+                <li><a href="#education" class="nav-item text-gray-600 hover:text-blue-500 transition-colors">학력 & 교육</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Hero Section -->
+        <section id="hero" class="text-center py-20">
+            <h1 class="text-5xl font-bold text-gray-900 mb-4">박영진</h1>
+            <h2 class="text-2xl text-gray-700 mb-8">백엔드 개발자</h2>
+            <div class="flex justify-center space-x-6 text-gray-600">
+                <a href="#" class="hover:text-blue-500 transition-colors">✉️ sprtms16@gmail.com</a>
+                <a href="#" class="hover:text-blue-500 transition-colors">📞 +82-10-6489-1718</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16">
+            <h3 class="section-title text-3xl font-bold mb-8">소개</h3>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <p class="text-xl font-bold text-blue-600 mb-4">"왜? 라는 질문으로 더 나은 방법을 찾는, 약 6년차 백엔드 개발자 박영진입니다."</p>
+                <p class="text-gray-700 leading-relaxed">
+                    저는 Java와 Kotlin, Spring Boot, Spring Cloud(MSA)를 활용하여 안정적이고 확장 가능한 시스템 구축에 주력해왔습니다. 단순히 주어진 과업을 넘어, 수동 배포로 비효율을 겪던 팀에 CI/CD를 도입하고, 성능 저하의 원인을 분석하여 3배 빠른 조회 속도를 구현하는 등 주도적으로 문제를 해결합니다. AWS 클라우드 환경에서의 배포/운영 경험과 시스템 전반에 대한 이해를 바탕으로, 기술적 과제를 해결하는 핵심 동력이 될 것이라 확신합니다.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills" class="py-16">
+            <h3 class="section-title text-3xl font-bold mb-8">보유 기술</h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-semibold mb-4 text-gray-900">주력 기술 (Proficient)</h4>
+                    <div id="proficient-skills"></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-semibold mb-4 text-gray-900">경험 기술 (Familiar)</h4>
+                    <div id="familiar-skills"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-16">
+            <h3 class="section-title text-3xl font-bold mb-12">경력 (총 5년 5개월)</h3>
+            <div class="relative">
+                <div class="timeline-line"></div>
+                <div id="timeline-container"></div>
+            </div>
+        </section>
+        
+        <!-- Additional Experience Section -->
+        <section id="additional-experience" class="py-16">
+            <h3 class="section-title text-3xl font-bold mb-8">추가 경험 및 프로젝트</h3>
+            <div class="grid md:grid-cols-2 gap-8" id="additional-projects-container"></div>
+        </section>
+
+        <!-- Education & Activities Section -->
+        <section id="education" class="py-16">
+             <h3 class="section-title text-3xl font-bold mb-8">학력, 교육 및 활동</h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <h4 class="text-xl font-semibold mb-4 text-gray-900">학력 및 교육</h4>
+                     <div class="space-y-4">
+                         <div>
+                            <p class="font-bold">한국소프트웨어기술훈련원</p>
+                            <p class="text-sm text-gray-600">MSA 기반 Java 개발자 양성 과정 (2019.01 ~ 2019.09)</p>
+                         </div>
+                         <div>
+                            <p class="font-bold">백석대학교</p>
+                            <p class="text-sm text-gray-600">정보보호학과 (학사) (2011.03 ~ 2015.02)</p>
+                         </div>
+                     </div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md">
+                     <h4 class="text-xl font-semibold mb-4 text-gray-900">대외활동</h4>
+                      <div>
+                        <p class="font-bold">백석대학교 전공 동아리 특강 | 강사 (2025. 1학기)</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 mt-2 space-y-1">
+                            <li>빅데이터 전공 동아리 학생 대상 "리얼 필드 개발자 나눔 토크" 진행</li>
+                            <li>현업 백엔드 시스템 구조, Spring Boot 특징, 데이터 통신 방법 등 강연</li>
+                        </ul>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const skillsData = {
+            proficient: {
+                "Language & Framework": ["Java", "Kotlin", "Spring Boot", "Spring Cloud", "Spring Framework", "JPA"],
+                "Database": ["MariaDB", "MySQL", "Redis"],
+                "DevOps & Version Control": ["AWS (EC2, RDS 등)", "Git"]
+            },
+            familiar: {
+                "Language & Framework": ["JavaScript", "TypeScript", "NestJS", "Node.js", "Vue.js"],
+                "Database": ["Oracle", "MongoDB"],
+                "Architecture & Tools": ["MSA", "PWA", "Docker", "Jenkins", "Jira", "Linux"]
+            }
+        };
+
+        const experienceData = [
+            {
+                company: "엘림랜드주식회사",
+                role: "웹사이트 총괄 및 기술 기반 경영지원",
+                period: "2024.10 ~ 재직 중"
+            },
+            {
+                company: "주식회사제이트인사이드",
+                role: "풀스택 개발 팀 리더",
+                period: "2021.02 ~ 2024.04 (3년 3개월)"
+            },
+            {
+                company: "시크릿다이렉트코리아주식회사",
+                role: "차세대 시스템 백엔드 개발자",
+                period: "2019.09 ~ 2020.11 (1년 3개월)"
+            },
+            {
+                company: "주식회사 베네피트에이치큐",
+                role: "모바일 앱 개발팀원",
+                period: "2018.05 ~ 2018.08 (3개월)"
+            }
+        ];
+
+        const additionalProjectsData = [
+            {
+                name: "현대오토에버 냉연생산팀 웹",
+                role: "프리랜서 풀스택 개발자",
+                period: "2018.09 ~ 2018.11 (3개월)"
+            },
+            {
+                name: "Football Insight (축구 정보 앱)",
+                role: "창업 멤버 및 백엔드 개발 리드",
+                period: "2016.02 ~ 2016.06 (5개월)"
+            }
+        ];
+
+        function renderSkills(containerId, skills) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            for (const category in skills) {
+                html += `<div class="mb-4">
+                            <h5 class="font-semibold text-gray-700 mb-2">${category}</h5>
+                            <div class="flex flex-wrap gap-2">`;
+                skills[category].forEach(skill => {
+                    html += `<span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">${skill}</span>`;
+                });
+                html += `</div></div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        renderSkills('proficient-skills', skillsData.proficient);
+        renderSkills('familiar-skills', skillsData.familiar);
+
+        const timelineContainer = document.getElementById('timeline-container');
+        experienceData.forEach((exp, index) => {
+            const timelineItem = document.createElement('div');
+            timelineItem.className = 'timeline-item relative pl-10 pb-12 cursor-pointer';
+            timelineItem.innerHTML = `
+                <div class="timeline-dot bg-white border-4 border-blue-500 rounded-full"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                    <p class="text-sm text-gray-500">${exp.period}</p>
+                    <h4 class="text-xl font-bold text-gray-900">${exp.company}</h4>
+                    <p class="text-gray-700">${exp.role}</p>
+                </div>
+            `;
+            timelineContainer.appendChild(timelineItem);
+        });
+        
+        const additionalProjectsContainer = document.getElementById('additional-projects-container');
+        additionalProjectsData.forEach(project => {
+            const projectCard = document.createElement('div');
+            projectCard.className = 'bg-white p-6 rounded-lg shadow-md';
+            projectCard.innerHTML = `
+                <p class="text-sm text-gray-500">${project.period}</p>
+                <h4 class="text-xl font-bold text-gray-900">${project.name}</h4>
+                <p class="text-gray-700">${project.role}</p>
+            `;
+            additionalProjectsContainer.appendChild(projectCard);
+        });
+
+        // Navigation scrollspy
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('#nav-menu a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').substring(1) === current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
